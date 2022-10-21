@@ -3,17 +3,10 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 const axios = require("axios");
-
 const port = 4000;
-<<<<<<< HEAD
+
 senhas = {};
 contadorId = 0;
-numeroSenha1 = 0;
-numeroSenha2 = 0;
-numeroSenha3 = 0;
-
-let senhas = {};
-let contadorId = 0;
 
 app.get('/senhas',(req, res) => {
     res.send(senhas);
@@ -21,21 +14,18 @@ app.get('/senhas',(req, res) => {
 
 app.post('/senhas', async (req, res) => {
     contadorId++;
-
     let numeroSenha1 = 0;
     let numeroSenha2 = 0;
     let numeroSenha3 = 0;
-        
-    const {especialidade, preferencial} = req.body;
+    
+    const {especialidade} = req.body;
         switch(especialidade){
 
             case 1:
                 numeroSenha1++;
                 const med1 = "CG";   //Clinico Geral
                 senhas[contadorId] = {
-                    numeroSenha1, 
-                    med1, 
-                    preferencial 
+                    numeroSenha1, med1 
                 };
 
                 await axios.post("http://localhost:10000/eventos",{
@@ -43,7 +33,6 @@ app.post('/senhas', async (req, res) => {
                     especialidade,
                     med1,
                     numeroSenha1,
-                    preferencial,
                     contadorId
                 });
                 console.log(senhas);
@@ -53,9 +42,7 @@ app.post('/senhas', async (req, res) => {
                 numeroSenha2++;
                 const med2 = "CO";   //Clinico Ortopedista
                 senhas[contadorId] = {
-                    numeroSenha2, 
-                    med2,
-                    preferencial 
+                    numeroSenha2, med2 
                 };
 
                 await axios.post("http://localhost:10000/eventos",{
@@ -64,7 +51,6 @@ app.post('/senhas', async (req, res) => {
                         especialidade,
                         med2,
                         numeroSenha2,
-                        preferencial,
                         contadorId
                     }
                 });
@@ -75,9 +61,7 @@ app.post('/senhas', async (req, res) => {
                 numeroSenha3++;
                 const med3 = "CP";   //Clinico Pediatra
                 senhas[contadorId] = {
-                    numeroSenha3, 
-                    med3,
-                    preferencial 
+                    numeroSenha3, med3 
                 };
 
                 await axios.post("http://localhost:10000/eventos",{
@@ -86,7 +70,6 @@ app.post('/senhas', async (req, res) => {
                         especialidade,
                         med3,
                         numeroSenha3,
-                        preferencial,
                         contadorId
                     }
                 });
