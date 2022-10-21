@@ -5,6 +5,13 @@ app.use(bodyParser.json());
 const axios = require("axios");
 
 const port = 4000;
+<<<<<<< HEAD
+senhas = {};
+contadorId = 0;
+numeroSenha1 = 0;
+numeroSenha2 = 0;
+numeroSenha3 = 0;
+
 let senhas = {};
 let contadorId = 0;
 
@@ -14,83 +21,79 @@ app.get('/senhas',(req, res) => {
 
 app.post('/senhas', async (req, res) => {
     contadorId++;
+
     let numeroSenha1 = 0;
     let numeroSenha2 = 0;
     let numeroSenha3 = 0;
         
     const {especialidade, preferencial} = req.body;
+        switch(especialidade){
 
-    // senhas[contador] = {
-    //     contador,
-    //     especialidade
-    // }
-    switch(especialidade){
+            case 1:
+                numeroSenha1++;
+                const med1 = "CG";   //Clinico Geral
+                senhas[contadorId] = {
+                    numeroSenha1, 
+                    med1, 
+                    preferencial 
+                };
 
-        case 1:
-            numeroSenha1++;
-            const med1 = "CG";   //Clinico Geral
-            senhas[contadorId] = {
-                numeroSenha1, 
-                med1, 
-                preferencial 
-            };
-
-            await axios.post("http://localhost:100000",{
-                tipo: 'SenhaGerada',
-                especialidade,
-                med1,
-                numeroSenha1,
-                preferencial,
-                contadorId
-            });
-            console.log(senhas);
-        break;
-
-        case 2:
-            numeroSenha2++;
-            const med2 = "CO";   //Clinico Ortopedista
-            senhas[contadorId] = {
-                numeroSenha2, 
-                med2,
-                preferencial 
-            };
-
-            await axios.post("http://localhost:100000",{
-                tipo: 'SenhaGerada',
-                dados:{
+                await axios.post("http://localhost:10000/eventos",{
+                    tipo: 'SenhaGerada',
                     especialidade,
+                    med1,
+                    numeroSenha1,
+                    preferencial,
+                    contadorId
+                });
+                console.log(senhas);
+            break;
+
+            case 2:
+                numeroSenha2++;
+                const med2 = "CO";   //Clinico Ortopedista
+                senhas[contadorId] = {
+                    numeroSenha2, 
                     med2,
-                    numeroSenha2,
-                    preferencial,
-                    contadorId
-                }
-            });
-            console.log(senhas);
-        break;
+                    preferencial 
+                };
 
-        case 3:
-            numeroSenha3++;
-            const med3 = "CP";   //Clinico Pediatra
-            senhas[contadorId] = {
-                numeroSenha3, 
-                med3,
-                preferencial 
-            };
+                await axios.post("http://localhost:10000/eventos",{
+                    tipo: 'SenhaGerada',
+                    dados:{
+                        especialidade,
+                        med2,
+                        numeroSenha2,
+                        preferencial,
+                        contadorId
+                    }
+                });
+                console.log(senhas);
+            break;
 
-            await axios.post("http://localhost:100000",{
-                tipo: 'SenhaGerada',
-                dados:{
-                    especialidade,
+            case 3:
+                numeroSenha3++;
+                const med3 = "CP";   //Clinico Pediatra
+                senhas[contadorId] = {
+                    numeroSenha3, 
                     med3,
-                    numeroSenha3,
-                    preferencial,
-                    contadorId
-                }
-            });
-            console.log(senhas);
-        break;
-    };
-    res.status(201).send(senhas[contadorId]);
+                    preferencial 
+                };
+
+                await axios.post("http://localhost:10000/eventos",{
+                    tipo: 'SenhaGerada',
+                    dados:{
+                        especialidade,
+                        med3,
+                        numeroSenha3,
+                        preferencial,
+                        contadorId
+                    }
+                });
+                console.log(senhas);
+            break;
+        };
+        res.status(201).send(senhas[contadorId]);
 });
 
 app.post('/eventos', (req, res) =>{
